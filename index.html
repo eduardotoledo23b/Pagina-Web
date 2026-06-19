@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orgullo Bachilleres 3 Bonfil - Grupo 6D</title>
+    <style>
+        /* ESTILOS GENERALES */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* COLORES Y VARIABLES */
+        :root {
+            --verde-bachilleres: #1a5e42;
+            --verde-claro: #288f65;
+            --dorado: #d4af37;
+            --blanco: #ffffff;
+            --oscuro: #222222;
+            --gris-claro: #e9ecef;
+            --azul-oscuro: #1b2a47;
+        }
+
+        /* ===== BARRA DE NAVEGACIÓN ===== */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: var(--blanco);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 40px;
+            z-index: 1000;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .nav-brand img {
+            height: 50px;
+        }
+        .nav-brand-text {
+            display: flex;
+            flex-direction: column;
+            color: var(--verde-bachilleres);
+            font-weight: 800;
+            font-size: 1.1rem;
+            line-height: 1.1;
+        }
+        .nav-brand-text small {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 400;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #444;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--verde-claro);
+        }
+
+        /* ===== ENCABEZADO / HERO ===== */
+        .hero {
+            margin-top: 70px;
+            background: linear-gradient(135deg, rgba(26, 94, 66, 0.85), rgba(34, 34, 34, 0.9)), url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            background-blend-mode: overlay;
+            color: var(--blanco);
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+        }
+        .hero-lince {
+            max-width: 220px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.5));
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        .btn-primary, .btn-secondary {
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background-color: var(--dorado);
+            color: var(--oscuro);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+        .btn-primary:hover {
+            background-color: #e6c245;
+            transform: translateY(-3px);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--blanco);
+            color: var(--blanco);
+        }
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+        }
+
+        /* ===== BOTÓN FLOTANTE PARA MÚSICA ===== */
+        .btn-flotante-musica {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            background-color: #288f65;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn-flotante-musica.pausado {
+            background-color: #ff3355;
+        }
+        .btn-flotante-musica:hover {
+            transform: scale(1.05);
+        }
+
+        /* ===== SECCIONES GENERALES ===== */
+        .section {
+            padding: 90px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .bg-light {
+            background-color: #ffffff;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--verde-bachilleres);
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* BANNER TICS */
+        .tics-banner {
+            display: flex;
+            flex-wrap: wrap;
+            background: var(--blanco);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+        .tics-content {
+            padding: 50px;
+            flex: 1 1 500px;
+        }
+        .tics-content h3 {
+            color: var(--oscuro);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        .highlight-teacher {
+            background-color: rgba(40, 143, 101, 0.08);
+            border-left: 5px solid var(--verde-claro);
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 0 10px 10px 0;
+            font-size: 1rem;
+        }
+        .tics-image-container {
+            flex: 1 1 400px;
+            background-color: var(--gris-claro);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .tics-image-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* ===== GALERÍA ESTILO TARJETAS ===== */
+        .gallery-category-title {
+            font-size: 1.8rem;
+            color: var(--oscuro);
+            margin: 50px 0 20px 0;
+            border-bottom: 3px solid var(--dorado);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background: var(--blanco);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #f0f0f0;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+        .card-media {
+            height: 220px;
+            background-color: #e9ecef;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-media img, .card-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s;
+        }
+        .card-body {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--verde-bachilleres);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .card-text {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+        .card-tag {
+            font-size: 0.8rem;
+            background: rgba(26, 94, 66, 0.1);
+            color: var(--verde-bachilleres);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+            width: max-content;
+        }
+
+        /* ===== SECCIÓN CONTACTO ===== */
+        .contact-container {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 70px 40px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .contact-container h2 {
+            color: #f7d959;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0 40px 0;
+            flex-wrap: wrap;
+        }
+        .contact-info div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 30px;
+        }
+        
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            background-color: #f5f2dc; 
+            color: #333;
+            font-size: 1rem;
+            outline: none;
+        }
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .btn-enviar {
+            background-color: #ff3355;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: max-content;
+            margin: 10px auto 0 auto;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-enviar:hover {
+            background-color: #e62040;
+        }
+
+        .btn-whatsapp {
+            background-color: #25d366;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+        .btn-whatsapp:hover {
+            background-color: #1ebd5a;
+            transform: scale(1.05);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--oscuro);
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        footer img {
+            width: 80px;
+            margin-bottom: 15px;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 15px 20px; flex-direction: column; gap: 15px; }
+            .hero { margin-top: 100px; padding: 60px 20px; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero-buttons { flex-direction: column; }
+            .btn-flotante-musica { bottom: 15px; right: 15px; padding: 10px 15px; font-size: 0.9rem; }
+            .tics-content { padding: 30px; }
+            .contact-container { padding: 40px 20px; }
+            .contact-info { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#inicio" class="nav-brand">
+            <img src="https://juliohdez74.github.io/asesorIA/images/laboratorio/c3lince.png" alt="Logo Lince">
+            <div class="nav-brand-text">
+                TICs Bonfil
+                <small>Plantel Cancún Tres</small>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#actividades">Actividades</a></li>
+            <li><a href="#galeria">Galería</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <header id="inicio" class="hero">
+        <img src="https://juliohdez74.github.io/asesorIA/images/laboratorio/Lincesf.png" alt="COBAQROO" class="hero-lince">
+        
+        <h1>Transforma tu Futuro</h1>
+        <p>Generación 6D - Turno Vespertino. Dejando nuestra huella en lo más alto a través de la innovación, el talento y las TICS.</p>
+        
+        <div class="hero-buttons">
+            <a href="#galeria" class="btn-primary">Ver Proyectos</a>
+            <a href="#contacto" class="btn-secondary">Únete ahora</a>
+        </div>
+
+        <audio id="musica-fondo" autoplay loop>
+            <source src="electronica.mp3" type="audio/mpeg">
+        </audio>
+    </header>
+
+    <button id="btn-toggle-musica" class="btn-flotante-musica">
+        ⏸ Pausar Música
+    </button>
+
+    <section id="actividades" class="section bg-light">
+        <div class="section-header">
+            <h2 class="section-title">Nuestras Actividades y Capacitación</h2>
+            <p class="section-subtitle">A lo largo de nuestra estancia, hemos aprendido a desarrollar proyectos con impacto real, dominando la tecnología y trabajando en equipo.</p>
+        </div>
+
+        <div class="tics-banner">
+            <div class="tics-content">
+                <span class="card-tag">Programación y Arduino</span>
+                <h3>El Poder de las TICS</h3>
+                <p>Nuestra capacitación nos transformó. Aprendimos a programar, a crear circuitos y a dar vida a la tecnología usando hardware LAFVIN/Arduino. Implementamos sensores de humedad y diseñamos maquetas automatizadas.</p>
+                <div class="highlight-teacher">
+                    <strong>Mención Honorífica:</strong> Gracias a nuestro maestro <strong>Julio Cesar Hernández Ponce</strong> por su paciencia e inspirarnos a ser creadores de tecnología.
+                </div>
+            </div>
+            <div class="tics-image-container">
+                <img src="WhatsApp Image 2026-06-09 at 4.20.05 PM (3).jpeg" alt="Equipo en el laboratorio">
+            </div>
+        </div>
+    </section>
+
+    <section id="galeria" class="section">
+        <div class="section-header">
+            <h2 class="section-title">Galería Multimedia</h2>
+            <p class="section-subtitle">Conoce nuestras instalaciones, proyectos y momentos inolvidables.</p>
+        </div>
+
+        <h3 class="gallery-category-title">💻 Proyectos, TICS y Electrónica</h3>
+        <div class="gallery-grid">
+            <div class="card"><div class="card-media"><video controls muted><source src="WhatsApp Video 2026-06-09 at 4.20.07 PM.mp4" type="video/mp4"></video></div><div class="card-body"><span class="card-tag">Electrónica</span><h4 class="card-title">Prueba de Sensor en Mesa</h4></div></div>
+            <div class="card"><div class="card-media"><video controls muted><source src="WhatsApp Video 2026-06-09 at 4.19.59 PM.mp4" type="video/mp4"></video></div><div class="card-body"><span class="card-tag">Proyecto de Campo</span><h4 class="card-title">Lectura de Humedad Real</h4></div></div>
+            <div class="card"><div class="card-media"><img src="WhatsApp Image 2026-06-09 at 4.20.03 PM (3).jpeg" alt="Cableado"></div><div class="card-body"><span class="card-tag">Hardware</span><h4 class="card-title">Conexión al Protoboard</h4></div></div>
+            <div class="card"><div class="card-media"><img src="WhatsApp Image 2026-06-09 at 4.20.03 PM.jpeg" alt="Sensor"></div><div class="card-body"><span class="card-tag">Hardware</span><h4 class="card-title">Módulo de Humedad</h4></div></div>
+            <div class="card"><div class="card-media"><img src="WhatsApp Image 2026-06-09 at 4.20.05 PM (2).jpeg" alt="LEDs"></div><div class="card-body"><span class="card-tag">Electrónica</span><h4 class="card-title">Circuito de Iluminación</h4></div></div>
+            <div class="card"><div class="card-media"><img src="WhatsApp Image 2026-06-09 at 4.20.05 PM.jpeg" alt="Maqueta"></div><div class="card-body"><span class="card-tag">Maquetas</span><h4 class="card-title">Ensamblando el Proyecto</h4></div></div>
+            <div class="card"><div class="card-media"><img src="WhatsApp Image 2026-06-09 at 4.20.04 PM.jpeg" alt="Taller"></div><div class="card-body"><span class="card-tag">Maquetas</span><h4 class="card-title">Taller Mecánico Automotriz</h4></div></div>
+            
+            <div class="card">
+                <div class="card-media">
+                    <video controls muted>
+                        <source src="WhatsApp Video 2026-06-18 at 4.54.10 PM.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">Maquetas</span>
+                    <h4 class="card-title">Demostración del Taller</h4>
+                </div>
+            </div>
+            </div>
+
+        <h3 class="gallery-category-title">🌱 Cuidado de Áreas Verdes</h3>
+        <div class="gallery-grid">
+            <div class="card"><div class="card-media"><img src="WhatsApp Image 2026-06-09 at 4.20.04 PM (1).jpeg" alt="Brotes"></div><div class="card-body"><span class="card-tag">Ecología</span><h4 class="card-title">Nuevos Brotes</h4></div></div>
+            <div class="card"><div class="card-media"><img src="WhatsApp Image 2026-06-09 at 4.20.04 PM (2).jpeg" alt="Campo"></div><div class="card-body"><span class="card-tag">Ecología</span><h4 class="card-title">Trabajo de Campo</h4></div></div>
+            <div class="card"><div class="card-media"><img src="WhatsApp Image 2026-06-09 at 4.20.04 PM (3).jpeg" alt="Cuidado"></div><div class="card-body"><span class="card-tag">Ecología</span><h4 class="card-title">Cuidado Especial</h4></div></div>
+            <div class="card"><div class="card-media"><img src="WhatsApp Image 2026-06-09 at 4.20.05 PM (1).jpeg" alt="Natural"></div><div class="card-body"><span class="card-tag">Ecología</span><h4 class="card-title">Mantenimiento Natural</h4></div></div>
+        </div>
+
+        <h3 class="gallery-category-title">🎨 Arte y Cultura</h3>
+        <div class="gallery-grid">
+            <div class="card"><div class="card-media"><img src="WhatsApp Image 2026-06-09 at 4.20.06 PM.jpeg" alt="Guerrero"></div><div class="card-body"><span class="card-tag">Arte Prehispánico</span><h4 class="card-title">Orgullo Prehispánico</h4></div></div>
+        </div>
+
+        <h3 class="gallery-category-title">📸 La Familia 6D</h3>
+        <div class="gallery-grid">
+            
+            <div class="card" style="border: 2px solid var(--dorado);">
+                <div class="card-media">
+                    <video id="video-mascota" controls>
+                        <source src="WhatsApp Video 2026-06-18 at 3.54.46 PM.mp4" type="video/mp4">
+                    </video>
+                    <audio id="audio-mascota" loop>
+                        <source src="musica_lince.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">Mascota Lince</span>
+                    <h4 class="card-title">¡El Lince en Acción!</h4>
+                </div>
+            </div>
+            <div class="card"><div class="card-media"><img src="WhatsApp Image 2026-06-09 at 4.20.06 PM (1).jpeg" alt="Noches"></div><div class="card-body"><span class="card-tag">Convivencia</span><h4 class="card-title">Noches en el Plantel</h4></div></div>
+            <div class="card"><div class="card-media"><video controls muted><source src="WhatsApp Video 2026-06-09 at 4.23.03 PM.mp4" type="video/mp4"></video></div><div class="card-body"><span class="card-tag">Tradiciones</span><h4 class="card-title">Día de Muertos</h4></div></div>
+            <div class="card"><div class="card-media"><video controls muted><source src="WhatsApp Video 2026-06-09 at 4.19.56 PM.mp4" type="video/mp4"></video></div><div class="card-body"><span class="card-tag">Diversión</span><h4 class="card-title">Momentos Random</h4></div></div>
+            <div class="card"><div class="card-media"><img src="WhatsApp Image 2026-06-09 at 4.20.05 PM (4).jpeg" alt="Descanso"></div><div class="card-body"><span class="card-tag">Esfuerzo</span><h4 class="card-title">Cansancio Acumulado</h4></div></div>
+
+        </div>
+
+    </section>
+
+    <section id="contacto" class="section bg-light" style="padding-bottom: 120px;">
+        <div class="contact-container">
+            <h2>¡Contáctanos!</h2>
+            <p style="font-size: 1.1rem; color: #e0e0e0;">¿Preguntas? Nos encantaría escucharte</p>
+            
+            <div class="contact-info">
+                <div>📍 Colegio de Bachilleres</div>
+                <div>📞 +52 9902372993</div>
+                <div>✉️ toledogomezedu6@gmail.com</div>
+            </div>
+
+            <form class="contact-form" id="form-correo">
+                <input type="text" id="nombre_usuario" placeholder="Tu nombre" required>
+                <textarea id="mensaje_usuario" placeholder="Tu mensaje" required></textarea>
+                <button type="submit" class="btn-enviar">
+                    <span style="font-size: 1.2rem;">✉️</span> Enviar por Correo
+                </button>
+            </form>
+
+            <a href="https://wa.me/529902372993" target="_blank" class="btn-whatsapp">
+                <span style="font-size: 1.4rem;">💬</span> Escríbenos por WhatsApp
+            </a>
+            <p style="margin-top: 15px; font-size: 0.85rem; color: #aaa;">Abre WhatsApp directamente sin necesidad de guardar el número.</p>
+        </div>
+    </section>
+
+    <footer>
+        <img src="https://juliohdez74.github.io/asesorIA/images/laboratorio/c3lince.png" alt="Logo Lince Footer">
+        <h3>Colegio de Bachilleres Plantel Cancún Tres</h3>
+        <p>Orgullosamente Generación 6D - Turno Vespertino</p>
+        <p style="font-size: 0.85rem; color: #888; margin-top: 10px;">Alfredo V. Bonfil, Quintana Roo | Programado con pasión</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnMusica = document.getElementById('btn-toggle-musica');
+            const musicaFondo = document.getElementById('musica-fondo');
+            const todosLosVideos = document.querySelectorAll('video');
+            
+            // Lógica especial del video del lince
+            const audioMascota = document.getElementById('audio-mascota');
+            const videoMascota = document.getElementById('video-mascota');
+
+            // 1. INTENTAR REPRODUCIR LA MÚSICA AL ENTRAR Y AL PRIMER CLIC
+            let musicaIniciada = false;
+            
+            // Función para actualizar el botón de la interfaz
+            function actualizarBotonMusica() {
+                if (musicaFondo.paused) {
+                    btnMusica.innerHTML = "▶ Reproducir Música";
+                    btnMusica.classList.add('pausado');
+                } else {
+                    btnMusica.innerHTML = "⏸ Pausar Música";
+                    btnMusica.classList.remove('pausado');
+                }
+            }
+
+            // Intento automático (A veces lo bloquea el navegador)
+            let playPromise = musicaFondo.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    musicaIniciada = true;
+                    actualizarBotonMusica();
+                }).catch(error => {
+                    actualizarBotonMusica(); // Si se bloquea, el botón dice "Reproducir"
+                });
+            }
+
+            // Si el navegador la bloqueó, forzamos la reproducción al primer clic en cualquier lado
+            document.body.addEventListener('click', function() {
+                if (!musicaIniciada && musicaFondo.paused) {
+                    musicaFondo.play();
+                    musicaIniciada = true;
+                    actualizarBotonMusica();
+                }
+            }, { once: true });
+
+            // 2. LÓGICA DEL BOTÓN FLOTANTE
+            if(btnMusica && musicaFondo) {
+                btnMusica.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Evita que se dispare el evento del clic en el body
+                    if (musicaFondo.paused) {
+                        musicaFondo.play();
+                    } else {
+                        musicaFondo.pause();
+                    }
+                    actualizarBotonMusica();
+                });
+            }
+
+            // 3. PAUSAR MÚSICA AL REPRODUCIR CUALQUIER VIDEO Y REANUDAR AL SALIR/PAUSAR
+            let estabaSonandoFondo = false;
+
+            todosLosVideos.forEach(video => {
+                video.addEventListener('play', () => {
+                    // Si la música estaba sonando, la pausamos
+                    if(musicaFondo && !musicaFondo.paused) {
+                        estabaSonandoFondo = true;
+                        musicaFondo.pause(); 
+                        actualizarBotonMusica();
+                    }
+                    
+                    // Si el video que se reprodujo es el del Lince, activamos su propia música
+                    if(video.id === 'video-mascota' && audioMascota) {
+                        audioMascota.play();
+                    }
+                });
+
+                video.addEventListener('pause', () => {
+                    // Si el video que se pausó es el del lince, pausamos su música extra
+                    if(video.id === 'video-mascota' && audioMascota) {
+                        audioMascota.pause();
+                    }
+                    
+                    // Si la música de fondo estaba sonando antes de ver el video, la regresamos
+                    if(musicaFondo && estabaSonandoFondo) {
+                        musicaFondo.play();
+                        estabaSonandoFondo = false;
+                        actualizarBotonMusica();
+                    }
+                });
+            });
+
+            // Sincronizar tiempo de audio del Lince si le adelantan al video
+            if(videoMascota && audioMascota) {
+                videoMascota.addEventListener('seeked', () => {
+                    audioMascota.currentTime = videoMascota.currentTime;
+                });
+            }
+
+            // 4. LÓGICA PARA ENVIAR CORREO DESDE EL FORMULARIO
+            const formCorreo = document.getElementById('form-correo');
+            if (formCorreo) {
+                formCorreo.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Evita que la página se recargue
+                    const nombre = document.getElementById('nombre_usuario').value;
+                    const mensaje = document.getElementById('mensaje_usuario').value;
+                    
+                    // Prepara el enlace para abrir Gmail / App de correo
+                    const destinatario = "toledogomezedu6@gmail.com";
+                    const asunto = encodeURIComponent("Mensaje desde la página web de Bachilleres (de " + nombre + ")");
+                    const cuerpo = encodeURIComponent("Hola, mi nombre es " + nombre + ".\n\n" + mensaje);
+                    
+                    // Abre el gestor de correo del usuario
+                    window.location.href = `mailto:${destinatario}?subject=${asunto}&body=${cuerpo}`;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
